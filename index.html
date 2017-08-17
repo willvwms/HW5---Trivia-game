@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trivia game</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--     <link rel="stylesheet" type="text/css" href="style.css"> -->
+ <script src="objects.js"></script>
+<!--  <script src="logic.js"></script> -->
+
+</head>
+
+
+<body>
+
+    <div id="start">
+
+    <button id="start-button">START!</button>
+        
+    </div> <!-- #starting screen -->
+
+    <div id="results"></div>
+
+    <div id="answer"> 
+
+    <img id="answerGif">
+
+    </div> <!-- #answer screen -->
+
+    <div id="qContainer">
+        
+        <div id="qHeader">
+
+        <p id="qNumber">QUESTION NUMBER</p>
+
+        <p>Time left: <span id="timer"></span></p>
+
+        <br>
+
+        <p id="questionText">QUESTION TEXT</p>
+
+        </div>
+
+        <div class="option" id="optionA">
+        <span id="a">OPTION A</span>
+        </div>
+
+        <div class="option" id="optionB">
+        <span id="b">OPTION B</span>
+        </div>
+
+        <div class="option" id="optionC">
+        <span id="c">OPTION C</span>
+        </div>        
+
+        <div class="option" id="optionD">
+        <span id="d">OPTION D</span>
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+
+var qNumber;
+var correct;
+
+window.list = gameData.list;
+
+function renderNext(i) {
+    window.list = gameData.list;    
+
+    $("#answer").hide();
+    $("#qContainer").show();
+
+    // Inserts the object's relevant data into the corresponding divs by ID:
+
+    $("#qNumber").html(`Question ${i+1}`);
+    console.log(`Question ${i+1}`);
+
+    $("#questionText").html(gameData.list[i].questionText);
+    console.log(`question - ${gameData.list[i].questionText}`);
+
+    $("#a").html(gameData.list[i].a);
+    console.log(`a - ${gameData.list[i].a}`);
+
+    $("#b").html(gameData.list[i].b);
+    console.log(`b - ${gameData.list[i].b}`);
+
+    $("#c").html(gameData.list[i].c);
+    console.log(`c - ${gameData.list[i].c}`);
+
+    $("#d").html(gameData.list[i].d);
+    console.log(`d - ${gameData.list[i].d}`);
+
+    console.log("------------------------");
+
+    // on-click for option button == correct answer
+
+    // exits the loop after the 14th question:
+    if(i == 13) {return;}
+
+    function countdown(x) {
+
+        if (x < 0) { return };
+
+        seconds = x;
+
+        if (seconds < 10) {seconds = "0" + seconds};
+
+        $("#timer").html(`: ${seconds}`);
+        
+        setTimeout(function()
+            
+            {
+                countdown(x-1);
+
+            }, 1000);
+
+          }
+
+        countdown(5);
+
+
+    // timer has finished recursing through its allotted number of seconds; 
+    // Now check the answer and display the appropriate picture and message:
+
+    var correct = false;
+    if (correct) {
+        $("#answerGif").attr("src", answerGif.right[0]);
+        $("#answer").append("You're right! 700x500 px size placeholder image");
+
+    }
+    else {
+        $("#answerGif").attr("src", answerGif.wrong[0]);
+        $("#answer").append("You're wrong! 500x250 px size placeholder image");
+    }
+
+    // Now HIDE the QUESTION screen,   SHOW the ANSWER screen
+
+    var questionScreen = setTimeout( function() {$("#qContainer").hide();}, 6 * 1000);
+
+    var answerScreen = setTimeout( function(){$("#answer").show();}, 6 * 1000);
+    
+
+    setTimeout(function()
+        {
+            renderNext(i + 1);
+
+        }, ((10 * 1000) + 1000));
+    
+} // close function definition: renderNext()!
+
+
+// START OF ACTUAL PROGRAM:
+
+$("#qContainer").hide();
+
+$("#start-button").click(function () {
+    $("#start-button").hide();
+    var commence = renderNext(0); 
+    } );  // closes click-handler that starts the entire program
+
+// Next step: tally and display results
+
+// Next step: give option to play again w/o hitting refresh
+
+
+// DEAD CODE ZONE -- DELETE WHEN COMPLETE
+
+// for (i = 0; i < gameData.list.length; i++) {
+
+//     $("#qNumber").html(`Question ${i+1}`);
+//     console.log(`Question ${i+1}`);
+//     $("#questionText").html(gameData.list[i].questionText);
+//     console.log(`question - ${gameData.list[i].questionText}`);
+//     $("#a").html(gameData.list[i].a);
+//     console.log(`a - ${gameData.list[i].a}`);
+//     $("#b").html(gameData.list[i].b);
+//     console.log(`b - ${gameData.list[i].b}`);
+//     $("#c").html(gameData.list[i].c);
+//     console.log(`c - ${gameData.list[i].c}`);
+//     $("#d").html(gameData.list[i].d);
+//     console.log(`d - ${gameData.list[i].d}`);
+//     console.log("------------------------");
+// }
+
+
+</script>
+
+</body>
+
+</html>
